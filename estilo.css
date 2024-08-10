@@ -1,0 +1,87 @@
+/* Estilo global */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #8B0000; /* Fundo vermelho escuro */
+    color: white; /* Texto branco */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Estilo do cabeçalho */
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #B22222; /* Vermelho fogo */
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+header img {
+    max-width: 100px;
+    height: auto;
+}
+
+/* Estilos dos botões */
+button {
+    background-color: #C71585; /* Vermelho médio */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #9B1B6A; /* Escurecendo o vermelho ao passar o mouse */
+}
+
+/* Estilo dos inputs, selects e textarea */
+input[type="text"], select, textarea {
+    width: 80%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+textarea {
+    height: 100px;
+}
+
+/* Seções e produtos */
+.section, .product {
+    margin-bottom: 20px;
+    width: 80%;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Sombra no texto */
+}
+
+/* Estilo do container de saída do relatório */
+#reportOutput {
+    margin-top: 30px;
+    padding: 15px;
+    background: #f4f4f4;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    white-space: pre-wrap;
+}
+
+/* Estilo do título */
+h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}

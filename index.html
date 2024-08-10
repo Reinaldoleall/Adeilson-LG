@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Relatórios</title>
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .product {
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        textarea, input[type="text"], select {
+            width: 95%;
+            padding: 8px;
+            margin-top: 5px;
+        }
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #reportOutput {
+            margin-top: 30px;
+            white-space: pre-wrap;
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<header><img id="logo"src="logo.png" alt="imagem"></header>
+<body>
+
+    <h1>Gerador de Relatórios</h1>
+
+    <div class="section">
+        <label for="storeSelect">Selecione a Loja:</label>
+        <select id="storeSelect" onchange="fillStoreDetails()">
+            <option value="">Selecione uma loja</option>
+            <option value="magSantaCruz">Magazine Luiza Santa Cruz</option>
+            <option value="magItaguai">Magazine Luiza Itaguaí</option>
+            <option value="pontoFrioItaguai">Ponto Frio Itaguaí</option>
+            <option value="lojasCemItaguai">Lojas Cem Itaguaí</option>
+        </select>
+
+        <label for="revenda">Revenda:</label>
+        <input type="text" id="revenda" placeholder="Digite a revenda" readonly>
+
+        <label for="local">Local:</label>
+        <input type="text" id="local" placeholder="Digite o local" readonly>
+
+        <label for="filial">Filial:</label>
+        <input type="text" id="filial" placeholder="Digite a filial" readonly>
+        
+        <label for="classStore">Class Store:</label>
+        <input type="text" id="classStore" placeholder="Digite a Class Store">
+
+        <label for="atendimento">Atendimento:</label>
+        <input type="text" id="atendimento" value="Eagles" readonly>
+
+        <label for="regiao">Região:</label>
+        <input type="text" id="regiao" value="Sudeste/RJ" readonly>
+
+        <label for="cidade">Cidade:</label>
+        <input type="text" id="cidade" value="Rio de Janeiro" readonly>
+
+        <label for="data">Data:</label>
+        <input type="text" id="data" readonly>
+    </div>
+
+    <div id="productList">
+        <div class="product">
+            <label for="tvModel">Modelo da TV:</label>
+            <input type="text" id="tvModel" placeholder="Digite o modelo da TV">
+
+            <label for="preco">Preço R$:</label>
+            <input type="text" id="preco" placeholder="Digite o preço">
+
+            <label for="estoque">Estoque:</label>
+            <select id="estoque">
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+            </select>
+
+            <label for="cd">CD:</label>
+            <select id="cd">
+                <option value="Sim">Sim</option>
+                <option value="Não">Não</option>
+            </select>
+        </div>
+    </div>
+
+    <button onclick="addProduct()">+ Adicionar mais um produto</button>
+
+    <div class="section">
+        <label for="materiaisPositivados">Materiais Positivados:</label>
+        <textarea id="materiaisPositivados" placeholder="Digite os materiais positivados"></textarea>
+    </div>
+
+    <div class="section">
+        <label for="informacaoCampo">Informação de Campo:</label>
+        <textarea id="informacaoCampo" placeholder="Digite as informações de campo"></textarea>
+    </div>
+
+    <div class="section">
+        <label for="promotor">Promotor:</label>
+        <input type="text" id="promotor" value="Adeilson Santos" readonly>
+
+        <label for="lider">Líder:</label>
+        <input type="text" id="lider" value="Wilson Pereira" readonly>
+
+        <label for="coordenadora">Coordenadora:</label>
+        <input type="text" id="coordenadora" value="Tarcísio Tolentino" readonly>
+    </div>
+
+    <button onclick="generateReport()">Gerar Relatório</button>
+
+    <div id="reportOutput" class="section">
+        <h2>Relatório Gerado:</h2>
+        <textarea id="report" readonly></textarea>
+    </div>
+
+    <script>
+        const storeDetails = {
+            magSantaCruz: {
+                revenda: "Magazine Luiza Santa Cruz",
+                local: "Rua Felipe Cardoso 539",
+                filial: "1647"
+            },
+            magItaguai: {
+                revenda: "Magazine Luiza Itaguaí",
+                local: "Rua Doutor Curvelo Cavalcanti 145",
+                filial: "1635"
+            },
+            pontoFrioItaguai: {
+                revenda: "Ponto Frio Itaguaí",
+                local: "Rua Doutor Curvelo Cavalcanti 287",
+                filial: "128"
+            },
+            lojasCemItaguai: {
+                revenda: "Lojas Cem Itaguaí",
+                local: "Rua Doutor Curvelo Cavalcanti 500",
+                filial: "103"
+            }
+        };
+
+        document.getElementById('data').value = new Date().toLocaleDateString('pt-BR');
+
+        function fillStoreDetails() {
+            const selectedStore = document.getElementById('storeSelect').value;
+            if (selectedStore && storeDetails[selectedStore]) {
+                document.getElementById('revenda').value = storeDetails[selectedStore].revenda;
+                document.getElementById('local').value = storeDetails[selectedStore].local;
+                document.getElementById('filial').value = storeDetails[selectedStore].filial;
+            } else {
+                document.getElementById('revenda').value = '';
+                document.getElementById('local').value = '';
+                document.getElementById('filial').value = '';
+            }
+        }
+
+        function addProduct() {
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('product');
+            productDiv.innerHTML = `
+                <label for="tvModel">Modelo da TV:</label>
+                <input type="text" id="tvModel" placeholder="Digite o modelo da TV">
+
+                <label for="preco">Preço R$:</label>
+                <input type="text" id="preco" placeholder="Digite o preço">
+
+                <label for="estoque">Estoque:</label>
+                <select id="estoque">
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                </select>
+
+                <label for="cd">CD:</label>
+                <select id="cd">
+                    <option value="Sim">Sim</option>
+                    <option value="Não">Não</option>
+                </select>
+            `;
+            document.getElementById('productList').appendChild(productDiv);
+        }
+
+        function generateReport() {
+            const revenda = document.getElementById('revenda').value;
+            const local = document.getElementById('local').value;
+            const filial = document.getElementById('filial').value;
+            const classStore = document.getElementById('classStore').value;
+            const atendimento = document.getElementById('atendimento').value;
+            const regiao = document.getElementById('regiao').value;
+            const cidade = document.getElementById('cidade').value;
+            const data = document.getElementById('data').value;
+
+            let products = '';
+            document.querySelectorAll('#productList .product').forEach(product => {
+                const tvModel = product.querySelector('#tvModel').value;
+                const preco = product.querySelector('#preco').value;
+                const estoque = product.querySelector('#estoque').value;
+                const cd = product.querySelector('#cd').value;
+                products += `*TV:* ${tvModel}\n*R$:* ${preco}\n*Estoque:* ${estoque}\n*CD:* ${cd}\n\n`;
+            });
+
+            const materiaisPositivados = document.getElementById('materiaisPositivados').value;
+            const informacaoCampo = document.getElementById('informacaoCampo').value;
+            const promotor = document.getElementById('promotor').value;
+            const lider = document.getElementById('lider').value;
+            const coordenadora = document.getElementById('coordenadora').value;
+
+            const report = `
+*Revenda*: ${revenda}
+*Local*: ${local}
+*Class Store*: ${classStore}
+*Atendimento*: ${atendimento}
+*Filial*: ${filial}
+*Região*: ${regiao}
+*Cidade*: ${cidade}
+*Data*: ${data}
+
+*Informação de Campo*:
+${informacaoCampo}
+
+${products}
+
+*Materiais Positivados*:
+${materiaisPositivados}
+
+
+*Promotor*: ${promotor}
+*Líder*: ${lider}
+*Coordenadora*: ${coordenadora}
+            `;
+
+            document.getElementById('report').value = report.trim();
+            copyToClipboard(report.trim());
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            alert("Relatório copiado para a área de transferência!");
+        }
+    </script>
+</body>
+</html>
